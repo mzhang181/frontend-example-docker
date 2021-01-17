@@ -5,5 +5,3 @@ workflows:
     heroku_deploy:
         jobs:
             - heroku/push-docker-image:
-                api-key: $HEROKU_API_KEY
-                process-types: $HEROKU_PROCESS_TYPE
