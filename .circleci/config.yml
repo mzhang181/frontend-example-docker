@@ -2,7 +2,8 @@ version: 2.1
 orbs:
     heroku: circleci/heroku@1.2.4
 workflows:
-    heroku_deply:
+    deploy:
         jobs:
-            - heroku/deploy-via-git
-
+            - heroku/push-docker-image:
+                api-key: $HEROKU_API_KEY
+                process-types: $HEROKU_PROCESS_TYPE
