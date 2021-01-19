@@ -6,11 +6,14 @@ jobs:
         machine:
             image: ubuntu-2004:202010-01
         steps:
-            - checkout
+            - checkout:
+                parameters:
+                    - path: /frontend
             - run:
                 name: Build and push Docker image to Heroku
                 command: |
                     sudo curl https://cli-assets.heroku.com/install.sh | sh
+                    cd /frontend
                     HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
                     HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a ${HEROKU_APP_NAME} ${HEROKU_PROCESS_TYPE}
                     HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${HEROKU_APP_NAME} ${HEROKU_PROCESS_TYPE}
