@@ -1,14 +1,18 @@
 version: 2.1
 jobs:
     build:
-        machine:
-            image: ubuntu-2004:202010-01
+        docker:
+            - image: heroku/default
         steps:
+            - setup_remote_docker
+            - heroku/install
+            - heroku/check-authentication
             - checkout
             - run:
-                name: Build and push Docker image to Heroku
-                command: |
-                    sudo curl https://cli-assets.heroku.com/install.sh | sh
-                    HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-                    HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a ${HEROKU_APP_NAME} ${HEROKU_PROCESS_TYPE}
-                    HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${HEROKU_APP_NAME} ${HEROKU_PROCESS_TYPE}
+                name: build and push image to heroku registry
+                command:
+                    HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
+                    HEROKU_API_KEY=${HEROKU_API_KEY} container:push -a ${HEROKU_APP_NAME} ${HEROKU_PROCESS_TYPE}
+            - heroku/release-docker-image
+orbs:
+    heroku: circleci/heroku@1.2.4
