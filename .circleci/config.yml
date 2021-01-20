@@ -10,7 +10,7 @@ jobs:
             - run:
                 name: build and push image to heroku registry
                 command:
-                    HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
+                    HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login ;
                     HEROKU_API_KEY=${HEROKU_API_KEY} container:push -a ${HEROKU_APP_NAME} ${HEROKU_PROCESS_TYPE}
             - heroku/release-docker-image
 orbs:
