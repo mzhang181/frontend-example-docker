@@ -1,8 +1,7 @@
 version: 2.1
 jobs:
     build:
-        docker:
-            - image: heroku/default
+        executor: heroku/default
         steps:
             - setup_remote_docker
             - heroku/install
